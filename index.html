@@ -1044,34 +1044,35 @@
         }
 
         // ФИКСИРУЕМ ПРОБЛЕМУ - ВОЗВРАЩАЕМ ПЛАВНУЮ ПРОКРУТКУ
-        function smoothScrollToElement(elementId) {
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    
-    const startPosition = window.pageYOffset;
-    const elementRect = element.getBoundingClientRect();
-    const targetPosition = elementRect.top + startPosition - (window.innerHeight / 3);
-    const distance = targetPosition - startPosition;
-    const duration = 2500; // УВЕЛИЧЬ ЗДЕСЬ ЧИСЛО - будет медленнее (было ~800)
-    let startTime = null;
-    
-    function animation(currentTime) {
-        if (!startTime) startTime = currentTime;
-        const timeElapsed = currentTime - startTime;
-        const progress = Math.min(timeElapsed / duration, 1);
-        
-        // Медленная кубическая функция
-        const easeProgress = 1 - Math.pow(1 - progress, 3); // более плавный вход
-        
-        window.scrollTo(0, startPosition + distance * easeProgress);
-        
-        if (timeElapsed < duration) {
-            requestAnimationFrame(animation);
+                function scrollToRSVP() {
+            const rsvpSection = document.getElementById('rsvp');
+            if (rsvpSection) {
+                // Прокрутка к форме RSVP по центру экрана
+                rsvpSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center'
+                });
+                
+                // Автофокус на поле имени через небольшую задержку
+                setTimeout(() => {
+                    const nameInput = document.getElementById('fullName');
+                    if (nameInput) {
+                        nameInput.focus();
+                    }
+                }, 300);
+            }
         }
-    }
-    
-    requestAnimationFrame(animation);
-}
+
+        function scrollToSchedule() {
+            const scheduleSection = document.getElementById('schedule');
+            if (scheduleSection) {
+                // Прокрутка к расписанию по центру экрана
+                scheduleSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center'
+                });
+            }
+        }
 
         // Apps Script URL (оставляем ваш)
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFe-AQTqvLflY3gP624aohLeahPBAwPXOnusy8BGBpFXvw3sJe7JHs-V9X2IAOEOrCNA/exec';
@@ -1158,6 +1159,7 @@
 </body>
 
 </html>
+
 
 
 
