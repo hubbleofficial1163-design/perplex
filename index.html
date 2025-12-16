@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Свадебное приглашение</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,85 C30,70 15,55 15,40 C15,25 30,15 40,15 C50,15 50,30 50,30 C50,30 50,15 60,15 C70,15 85,25 85,40 C85,55 70,70 50,85 Z' fill='%23e8b9a0' stroke='%23d8a287' stroke-width='3'/></svg>">
-    
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='none' stroke='%23e8b9a0' stroke-width='8'/><circle cx='50' cy='50' r='25' fill='none' stroke='%23e8b9a0' stroke-width='8'/></svg>">
+
     <style>
         /* ===== БАЗА: mobile‑first ===== */
         *, *::before, *::after {
@@ -742,7 +742,7 @@
                     <div class="hero-label">
                         <p class="hero-tagline">Приглашение на свадьбу</p>
                         <h1 class="hero-names">Анна <span>&</span> Виталий</h1>
-                        <p class="hero-date">21 сентября 2025 · Москва</p>
+                        <p class="hero-date">1 августа 2026 · Москва</p>
                     </div>
                 </div>
 
@@ -781,7 +781,7 @@
                 <div class="details-list">
                     <div class="detail-card">
                         <p class="detail-label">Дата и время</p>
-                        <p class="detail-value">21 сентября 2025 · сбор гостей с 15:30</p>
+                        <p class="detail-value">1 августа 2026 · сбор гостей с 15:30</p>
                         <p class="detail-note">Пожалуйста, заложите время на дорогу и парковку.</p>
                     </div>
 
@@ -892,7 +892,7 @@
                 <div class="rsvp-header">
                     <h2 class="rsvp-title">Подтвердите присутствие</h2>
                     <p class="rsvp-subtitle">
-                        Пожалуйста, ответьте до 01 августа 2025. Ваш ответ поможет нам организовать вечер максимально комфортно для всех.
+                        Пожалуйста, ответьте до 01 июля 2025. Ваш ответ поможет нам организовать вечер максимально комфортно для всех.
                     </p>
                 </div>
 
@@ -914,10 +914,10 @@
                             <label class="form-label" for="guests">Количество гостей</label>
                             <select id="guests" class="form-select">
                                 <option value="1">1 (только я)</option>
-                                <option value="2" selected>2 (я + 1 сопровождающий)</option>
-                                <option value="3">3 (я + 2 сопровождающих)</option>
-                                <option value="4">4 (я + 3 сопровождающих)</option>
-                                <option value="5">5 (я + 4 сопровождающих)</option>
+                                <option value="2" selected>2 (я + 1)</option>
+                                <option value="3">3 (я + 2)</option>
+                                <option value="4">4 (я + 3)</option>
+                                <option value="5">5 (я + 4)</option>
                             </select>
                         </div>
 
@@ -970,7 +970,7 @@
             <div class="footer-contact">
                 Контакты для связи:<br>
                 <a href="tel:+79991234567">+7 (999) 123-45-67</a><br>
-                <a href="mailto:wedding@example.com">wedding@example.com</a>
+                <a href="mailto:wedding@example.com"></a>
             </div>
         </div>
     </footer>
@@ -1003,7 +1003,7 @@
 
         // Счетчик дней до свадьбы (без анимации изменения)
         function initCountdown() {
-            const weddingDate = new Date('2025-09-21T15:30:00+03:00');
+            const weddingDate = new Date('2026-08-01T15:30:00+03:00');
             const daysElement = document.getElementById('days');
             const hoursElement = document.getElementById('hours');
             const minutesElement = document.getElementById('minutes');
@@ -1043,55 +1043,41 @@
             setInterval(updateCountdown, 1000);
         }
 
-        // Функции для кнопок - МЕДЛЕННАЯ прокрутка
-        function smoothScrollTo(element, duration = 1500) {
-            const start = window.pageYOffset;
-            const to = element.getBoundingClientRect().top + start - 100;
-            const change = to - start;
-            let currentTime = 0;
-            const increment = 20;
-            
-            function animateScroll() {
-                currentTime += increment;
-                const val = easeInOutQuad(currentTime, start, change, duration);
-                window.scrollTo(0, val);
-                if (currentTime < duration) {
-                    requestAnimationFrame(animateScroll);
-                }
-            }
-            
-            function easeInOutQuad(t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t + b;
-                t--;
-                return -c/2 * (t*(t-2) - 1) + b;
-            }
-            
-            requestAnimationFrame(animateScroll);
-        }
-
+        // ФИКСИРУЕМ ПРОБЛЕМУ - ВОЗВРАЩАЕМ ПЛАВНУЮ ПРОКРУТКУ
         function scrollToRSVP() {
             const rsvpSection = document.getElementById('rsvp');
             if (rsvpSection) {
-                smoothScrollTo(rsvpSection, 2000); // 2 секунды
+                // Прокрутка к форме RSVP по центру экрана
+                rsvpSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center'
+                });
+                
+                // Автофокус на поле имени через небольшую задержку
                 setTimeout(() => {
                     const nameInput = document.getElementById('fullName');
-                    if (nameInput) nameInput.focus();
-                }, 500);
+                    if (nameInput) {
+                        nameInput.focus();
+                    }
+                }, 300);
             }
         }
 
         function scrollToSchedule() {
             const scheduleSection = document.getElementById('schedule');
             if (scheduleSection) {
-                smoothScrollTo(scheduleSection, 2000); // 2 секунды
+                // Прокрутка к расписанию по центру экрана
+                scheduleSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center'
+                });
             }
         }
 
-        // Apps Script URL
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRPttDs4vtnAC57L77KAFBqm6KztvKQe8XrMN6119uW2NdW3WIjI1aBG5MOwFh7jXu/exec';
+        // Apps Script URL (оставляем ваш)
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFe-AQTqvLflY3gP624aohLeahPBAwPXOnusy8BGBpFXvw3sJe7JHs-V9X2IAOEOrCNA/exec';
 
-        // Обработка формы RSVP
+        // Обработка формы RSVP (оставляем без изменений)
         const rsvpForm = document.getElementById('rsvpForm');
         const successMessage = document.getElementById('successMessage');
         const submitBtn = document.getElementById('submitBtn');
@@ -1167,7 +1153,7 @@
             }
         }
 
-        // Улучшение для мобильных
+        // Улучшение для мобильных: предотвращаем зум при фокусе
         document.addEventListener('touchstart', function() {}, {passive: true});
     </script>
 </body>
