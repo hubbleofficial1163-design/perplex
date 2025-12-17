@@ -190,7 +190,7 @@
 
         .btn-primary {
             flex: 1;
-            padding: 10px 14px;
+            padding: 10px 30px 10px 14px !important;
             border-radius: 999px;
             border: 1px solid var(--accent);
             background: linear-gradient(135deg, var(--accent), #d8a287);
@@ -213,7 +213,7 @@
         }
 
         .btn-ghost {
-            padding: 10px 14px;
+            padding: 10px 30px 10px 14px !important;
             border-radius: 999px;
             border: 1px solid rgba(0, 0, 0, 0.1);
             background: rgba(255, 255, 255, 0.7);
@@ -226,11 +226,68 @@
             transition: all var(--transition-fast);
             -webkit-tap-highlight-color: transparent;
             outline: none;
+            position: relative;
         }
 
         .btn-ghost:active {
             background: rgba(255, 255, 255, 0.9);
             transform: scale(0.98);
+        }
+
+        /* ===== СТРЕЛОЧКИ В КНОПКАХ (FIXED) ===== */
+        .btn-primary,
+        .btn-ghost {
+            position: relative;
+        }
+
+        .btn-primary {
+            padding: 10px 30px 10px 14px !important;
+        }
+
+        .btn-ghost {
+            padding: 10px 27px 10px 14px !important;
+        }
+
+        .btn-primary::after {
+            content: "↓";
+            position: absolute;
+            right: 24px;       /* ← Регулируйте горизонтально */
+            top: 45%;          /* ← Регулируйте вертикально */
+            transform: translateY(-50%);
+            margin-left: 0;
+            font-size: 14px;   /* ← Регулируйте размер */
+            display: inline-block;
+            transition: transform var(--transition-fast);
+            line-height: 1;
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.95); /* Белая стрелочка */
+        }
+        .btn-ghost::after {
+            content: "↓";
+            position: absolute;
+            right: 15px;
+            top: 46%;
+            transform: translateY(-50%);
+            margin-left: 0;
+            font-size: 12px;
+            display: inline-block;
+            transition: transform var(--transition-fast);
+            line-height: 1;
+            opacity: 0.9;
+        }
+
+        .btn-primary:active::after,
+        .btn-ghost:active::after {
+            transform: translateY(-50%) translateY(2px);
+            opacity: 1;
+        }
+
+        @media (hover: hover) {
+            .btn-primary:hover::after,
+            .btn-ghost:hover::after {
+                transform: translateY(-50%) translateY(2px);
+                opacity: 1;
+            }
         }
 
         /* ===== СЕКЦИЯ СЧЕТЧИКА ===== */
@@ -714,9 +771,17 @@
                     box-shadow: 0 12px 28px rgba(232, 185, 160, 0.4);
                 }
 
+                .btn-primary:hover::after {
+                    transform: translateY(1px);
+                }
+
                 .btn-ghost:hover {
                     background: rgba(255, 255, 255, 0.9);
                     transform: translateY(-1px);
+                }
+
+                .btn-ghost:hover::after {
+                    transform: translateY(-50%) translateY(1px);
                 }
 
                 .form-input:hover,
@@ -970,7 +1035,7 @@
             <div class="footer-contact">
                 Контакты для связи:<br>
                 <a href="tel:+79991234567">+7 (999) 123-45-67</a><br>
-                <a href="mailto:wedding@example.com"></a>
+                <a href="mailto:wedding@example.com">wedding@example.com</a>
             </div>
         </div>
     </footer>
@@ -1043,7 +1108,7 @@
             setInterval(updateCountdown, 1000);
         }
 
-        // ФИКСИРУЕМ ПРОБЛЕМУ - ВОЗВРАЩАЕМ ПЛАВНУЮ ПРОКРУТКУ
+        // Прокрутка к форме RSVP
         function scrollToRSVP() {
             const rsvpSection = document.getElementById('rsvp');
             if (rsvpSection) {
@@ -1063,6 +1128,7 @@
             }
         }
 
+        // Прокрутка к расписанию
         function scrollToSchedule() {
             const scheduleSection = document.getElementById('schedule');
             if (scheduleSection) {
@@ -1077,7 +1143,7 @@
         // Apps Script URL (оставляем ваш)
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFe-AQTqvLflY3gP624aohLeahPBAwPXOnusy8BGBpFXvw3sJe7JHs-V9X2IAOEOrCNA/exec';
 
-        // Обработка формы RSVP (оставляем без изменений)
+        // Обработка формы RSVP
         const rsvpForm = document.getElementById('rsvpForm');
         const successMessage = document.getElementById('successMessage');
         const submitBtn = document.getElementById('submitBtn');
